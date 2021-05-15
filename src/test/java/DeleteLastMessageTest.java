@@ -23,7 +23,7 @@ public class DeleteLastMessageTest extends BaseClass {
     public void init() {
         driver = driverInit();
         LoginPage loginPage = new LoginPage(driver);
-        userPage = loginPage.doLogin("", "");
+        userPage = loginPage.doLogin("89819459429", "miLORD4overLORD");
     }
 
     @Test
@@ -33,14 +33,17 @@ public class DeleteLastMessageTest extends BaseClass {
         FriendsElement friendsElement = messagesPage.getFriendsElement();
         List<FriendWrapper> friendsElementList = friendsElement.getFriendList();
         for (FriendWrapper friendWrapper : friendsElementList) {
-            if (friendWrapper.getFullName().equals("")) {
+            if (friendWrapper.getFullName().equals("Алина Шестакова")) {
                 friendWrapper.choose();
                 break;
             }
         }
         MessagesElement messagesElement = messagesPage.getMessagesElement();
         List<MessageWrapper> messageWrapperList = messagesElement.getListMessages();
-        messageWrapperList.get(0).deleteLastMessage(driver);
+        messageWrapperList.get(0).clickMessage()
+                .clickMessageOptionBar()
+                .clickMessageOptionDelete()
+                .clickConfirmDeleteMessage();
         Assert.assertNotEquals("Test deleteLastMessage has errors", messageWrapperList.get(0).getText(), "");
     }
 

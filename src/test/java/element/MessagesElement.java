@@ -16,7 +16,7 @@ public class MessagesElement {
     private static final String CSS_SELECTOR_MESSAGE = "msg-message";
     private WebElement rootElem;
     private WebElement shadowRoot;
-    private WebDriver driver;
+    private final WebDriver driver;
 
 
     public MessagesElement(WebDriver driver) {
@@ -34,7 +34,7 @@ public class MessagesElement {
         List<WebElement> webElementList = rootElem.findElements(By.cssSelector(CSS_SELECTOR_MESSAGE));
         List<MessageWrapper> messageWrapperList = new ArrayList<>();
         for (WebElement elem : webElementList) {
-            messageWrapperList.add(new MessageWrapper(elem, shadowRoot));
+            messageWrapperList.add(new MessageWrapper(this.driver, elem, shadowRoot));
         }
         Collections.reverse(messageWrapperList);
         return messageWrapperList;

@@ -14,7 +14,7 @@ public class FriendsElement {
     private static final String CSS_SELECTOR_MAIN_ELEMENT = "msg-app";
     private static final String CSS_SELECTOR_MESSAGE = "msg-chats-list-item";
     private WebElement rootElem;
-    private WebDriver driver;
+    private final WebDriver driver;
 
     public FriendsElement(WebDriver driver) {
         this.driver = driver;

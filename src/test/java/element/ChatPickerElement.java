@@ -14,7 +14,7 @@ public class ChatPickerElement {
     private static final String CSS_SELECTOR_ELEMENT_CHAT_PICKER = "msg-app";
     private static final String CSS_SELECTOR_CHAT_PICKER = "msg-chat-picker-list-item";
     private WebElement rootElem;
-    private WebDriver driver;
+    private final WebDriver driver;
 
     public ChatPickerElement(WebDriver driver) {
         this.driver = driver;

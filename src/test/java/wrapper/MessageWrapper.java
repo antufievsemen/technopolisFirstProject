@@ -17,14 +17,16 @@ public class MessageWrapper {
     private static final String CSS_SELECTOR_DELETE_BUTTON_CONFIRM = "msg-button[data-tsid=confirm-primary]";
     private static final String CSS_SELECTOR_SEARCH_INPUT = "msg-input";
     private static final String CSS_SELECTOR_SEND_MESSAGE_CONFIRM = "msg-button[data-tsid=forward_btn]";
-    private WebElement element;
-    private WebElement shadowRoot;
-    private String text;
+    private final WebElement element;
+    private final WebElement shadowRoot;
+    private final String text;
+    private final Actions actions;
 
-    public MessageWrapper(WebElement element, WebElement shadowRoot) {
+    public MessageWrapper(WebDriver driver, WebElement element, WebElement shadowRoot) {
         this.element = element;
         this.shadowRoot = shadowRoot;
         this.text = element.findElement(By.cssSelector(CSS_SELECTOR_TEXT)).getText();
+        this.actions = new Actions(driver);
     }
 
     public String getText() {
@@ -32,17 +34,36 @@ public class MessageWrapper {
     }
 
     /* метод сделан
-    Антуфьев Семен
+    *Антуфьев Семен
+    * Старый метод, изменен на паттерн Chain of invocations
     * */
-    public void deleteLastMessage(WebDriver driver) {
-        Actions actions = new Actions(driver);
-        WebElement helpElement = element;
-        actions.moveToElement(helpElement).click().perform();
-        helpElement = helpElement.findElement(By.cssSelector(CSS_SELECTOR_MESSAGE_MENU_OPTION));
-        actions.moveToElement(helpElement).click().perform();
-        actions.moveToElement(shadowRoot.findElement(By.cssSelector(CSS_SELECTOR_MESSAGE_MENU_OPTION_DELETE))).click().perform();
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        actions.moveToElement(shadowRoot.findElement(By.cssSelector(CSS_SELECTOR_DELETE_BUTTON_CONFIRM))).click().perform();
+//    public void deleteLastMessage(WebDriver driver) {
+//        Actions actions = new Actions(driver);
+//        actions.moveToElement(this.element).click().perform();
+//        actions.moveToElement(this.element.findElement(By.cssSelector(CSS_SELECTOR_MESSAGE_MENU_OPTION))).click().perform();
+//        actions.moveToElement(this.shadowRoot.findElement(By.cssSelector(CSS_SELECTOR_MESSAGE_MENU_OPTION_DELETE))).click().perform();
+//        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+//        actions.moveToElement(this.shadowRoot.findElement(By.cssSelector(CSS_SELECTOR_DELETE_BUTTON_CONFIRM))).click().perform();
+//    }
+
+    public MessageWrapper clickMessage() {
+        actions.moveToElement(this.element).click().perform();
+        return this;
+    }
+
+    public MessageWrapper clickMessageOptionBar() {
+        actions.moveToElement(this.element.findElement(By.cssSelector(CSS_SELECTOR_MESSAGE_MENU_OPTION))).click().perform();
+        return this;
+    }
+
+    public MessageWrapper clickMessageOptionDelete() {
+        actions.moveToElement(this.shadowRoot.findElement(By.cssSelector(CSS_SELECTOR_MESSAGE_MENU_OPTION_DELETE))).click().perform();
+        return this;
+    }
+
+    public MessageWrapper clickConfirmDeleteMessage() {
+        actions.moveToElement(this.shadowRoot.findElement(By.cssSelector(CSS_SELECTOR_DELETE_BUTTON_CONFIRM))).click().perform();
+        return this;
     }
 
     /* метод сделан

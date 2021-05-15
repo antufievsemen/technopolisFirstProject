@@ -5,8 +5,8 @@ import org.openqa.selenium.WebElement;
 
 public class ChatPickerWrapper {
     private static final String CSS_SELECTOR_CHAT_PICKER_TEXT = "msg-parsed-text";
-    private WebElement element;
-    private String fullName;
+    private final WebElement element;
+    private final String fullName;
 
     public ChatPickerWrapper(WebElement webElement) {
         this.element = webElement;
